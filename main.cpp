@@ -1,6 +1,8 @@
 //C++ main libs
 #include <iostream>
 #include <string>
+#include <locale>
+#include <clocale>
 
 using namespace std;
 
@@ -12,10 +14,7 @@ using namespace std;
 
 
 
-int main(int argc, char *argv[]) {
- 
-  mainMenu();
-
-  //User test2 = FileSystem::loadUser("12345678912");
+int main() {
+    mainMenu();
   return 0;
 };

@@ -44,6 +44,7 @@ bool fileExists(const string& name)
     ifstream f(name.c_str());
     return f.good();
 };
+
 //validateID
 bool validateID(const string& numer)
 {
@@ -78,7 +79,7 @@ namespace FileSystem {
  void saveUser(
               const int admin,
               const string& imie,
-              const string& naziwsko,
+              const string& nazwisko,
               const string& pesel,
               const string& numerDowodu,
               const string& dataUrodzenia,
@@ -86,7 +87,7 @@ namespace FileSystem {
               vector<vector<string>> stanKonta) {
         ofstream userFile("./users/" + pesel);
         if (userFile.is_open()) {
-                userFile << to_string(admin) + ":" + imie + ":" + naziwsko + ":" + pesel + ":" + numerDowodu +
+                userFile << to_string(admin) + ":" + imie + ":" + nazwisko + ":" + pesel + ":" + numerDowodu +
                         ":" + dataUrodzenia + ":" + haslo;
                 //StanKonta handler
                 for(int i = 0; i < stanKonta.size(); i++) {
@@ -102,12 +103,43 @@ namespace FileSystem {
         };
 };
 
+ void saveUser(User& user) {
+     int admin = user.getAdmin();
+     const string& imie = user.getImie();
+     const string& nazwisko = user.getNazwisko();
+         const string& pesel = user.getPesel();
+         const string& numerDowodu = user.getNumerDowodu();
+         const string& dataUrodzenia = user.getDataUrodzenia();
+         const string& haslo = user.getHaslo();
+         vector<vector<string>> stanKonta = user.getStanKonta();
+
+     ofstream userFile("./users/" + pesel);
+     if (userFile.is_open()) {
+         userFile << to_string(admin) + ":" + imie + ":" + nazwisko + ":" + pesel + ":" + numerDowodu +
+             ":" + dataUrodzenia + ":" + haslo;
+         //StanKonta handler
+         for (int i = 0; i < stanKonta.size(); i++) {
+             userFile << ":" + stanKonta[i][0];
+             for (int j = 0; j < stanKonta[i].size() - 1; j++) {
+                 userFile << ":" + stanKonta[i][1];
+             };
+         };
+         // Close file
+         userFile.close();
+     }
+     else {
+         throw runtime_error("Error opening file.");
+     };
+ };
+
 /*
  *  Create user function
  */
 bool createUser()
 {
     // Pesel logic
+    cin.clear();
+    fflush(stdin);
     cout << "Podaj pesel: " << endl;
     string pesel;
     while (getline(cin, pesel)) {
@@ -161,17 +193,17 @@ bool createUser()
             return false;
         };
     };
-    string naziwsko;
+    string nazwisko;
     cout << "Podaj nazwisko: " << endl;
-    while (getline(cin, naziwsko)) {
-        if (Utils::isChars(naziwsko) && naziwsko.length() > 2) {
+    while (getline(cin, nazwisko)) {
+        if (Utils::isChars(nazwisko) && nazwisko.length() > 2) {
             //Nazwisko formating
-            for (int i = 0; i < naziwsko.length(); i++) {
+            for (int i = 0; i < nazwisko.length(); i++) {
                 if (i == 0) {
-                    naziwsko[0] = toupper(naziwsko[0]);
+                    nazwisko[0] = toupper(nazwisko[0]);
                 }
                 else {
-                    naziwsko[i] = tolower(naziwsko[i]);
+                    nazwisko[i] = tolower(nazwisko[i]);
                 };
             };
             break;
@@ -256,7 +288,7 @@ bool createUser()
         temp.resize(1, vector<string>(2, ""));
         temp[0][0] = "PLN";
         temp[0][1] = "0";
-        saveUser(0, imie, naziwsko, pesel, numerDowodu, dataUrodzenia, haslo, temp);
+        saveUser(0, imie, nazwisko, pesel, numerDowodu, dataUrodzenia, haslo, temp);
     }
     catch (const exception& e) {
         cout << e.what() << endl;
@@ -291,8 +323,8 @@ User loadUser(const string& pesel) {
                 };
                 return User(stoi(userData[0]), userData[1], userData[2], userData[3], userData[4], userData[5], userData[6], stanKontaData);
                 cout << "Zalogowano";
-        } else {
-                throw runtime_error("Blad przy otwieraniu pliku.");
+        } else 
+        {
         };
 };
 

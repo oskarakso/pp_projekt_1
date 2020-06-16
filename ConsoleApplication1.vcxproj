@@ -158,7 +158,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="main" />
+    <None Include="users\99010205820" />
     <None Include="users\99010205821" />
+    <None Include="users\99010205822" />
+    <None Include="users\99010205823" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Data\exchangeRates.txt" />
