@@ -23,7 +23,7 @@ void mainMenuText(){
   cout << "1 - Zaloguj\n";
   cout << "2 - Sprawdz kursy wymiany walut\n";
   cout << "3 - Stworz konto\n\n";
-  cout << "Aby wyjsc wprowadź dowolny inny znak\n";
+  cout << "Aby wyjsc wprowadz dowolny inny znak\n";
 }
 void loginWindowExit() {
     _getch();
@@ -154,12 +154,13 @@ void detailsWindow(User& user) {
    _getch();
    if (GetKeyState(VK_ESCAPE) & 0x8000) {
        cleaner();
+       cleaner();
        userWindow(user);
    }
 }
 void userWindow(User& user) {
     cleaner();
-    cout << "-----ZALOGUJ-----\n";
+    cout << "-----TWOJE KONTO-----\n";
     cout << "Witaj: " << user.getImie() << " " << user.getNazwisko() << endl;
     cout << "1 - Kantor\n";
     cout << "2 - Przelewy\n";
@@ -237,7 +238,7 @@ void mainMenuFunction() {
             mainMenu();
         }
         else {
-            cout << "\nAby powrócić kliknij dowolny przycisk \n";
+            cout << "\nAby powrocic kliknij dowolny przycisk \n";
             _getch();
             mainMenu();
         }
